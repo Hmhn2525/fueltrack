@@ -1,0 +1,11 @@
+{
+  "synthetic": true,
+  "unit": "DEMO-UNIT-001",
+  "warehouse": "Almacén Demo A",
+  "requested_liters": 100,
+  "approved_liters": 100,
+  "dispatch_liters": 20,
+  "remaining_liters": 80,
+  "operation_key": "DEMO-OP-001",
+  "exact_retry_additional_liters": 0
+}
