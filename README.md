@@ -24,8 +24,7 @@ Un sistema que organiza el flujo operativo en tres fases sincronizadas:
 
 ## Aportación personal
 
-<!-- APORTACION-PERSONAL: sustituir tras la confirmación agrupada de responsabilidades. -->
-Las responsabilidades personales específicas se detallarán tras la confirmación agrupada. Este repositorio documenta el caso, la arquitectura observada y las pruebas sintéticas sin atribuir autoría exclusiva de los sistemas operativos.
+Diseñé e implementé la solución a partir del relevamiento directo de las condiciones y necesidades diarias del suministro en campo: definí las reglas de validación de cuotas, el mecanismo de bloqueo concurrente (`LockService`) para evitar colisiones en saldos, la lógica de idempotencia por clave para impedir dobles despachos y la persistencia offline en IndexedDB para asegurar la continuidad operativa ante fallas de conectividad.
 
 ## Aportación de la automatización
 
