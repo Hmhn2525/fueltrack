@@ -1,56 +1,76 @@
 # FuelTrack
 
-Control de solicitudes, aprobación y despacho de combustible.
+Control de solicitudes, aprobación y despacho de combustible en campo.
 
-**Estado:** caso de estudio documental de una implementación local revisada. El código operativo y sus datos no se distribuyen en este repositorio. Se publican documentación nueva y un recorrido ilustrativo con datos ficticios.
+> [!NOTE]
+> **Repositorio documental.** El código operativo y sus datos son privados. Aquí se publican documentación técnica, datos ficticios y un recorrido ilustrativo con verificación reproducible.
 
-## Problema y solución
+[Probar el ejemplo](#probar-el-ejemplo) · [Caso de estudio](docs/case-study.md) · [Arquitectura](docs/architecture.md) · [Verificación y límites](docs/verification.md)
 
-Coordinar solicitudes, autorización de cuotas y captura en campo, conservando evidencia y evitando descontar dos veces una operación reintentada.
+## Problema
 
-La implementación local organiza solicitudes y aprobación, despacho con evidencia, saldos y consulta. El cliente de campo conserva borradores y pendientes en IndexedDB.
+La distribución de combustible en campo requiere coordinar la solicitud inicial, la autorización administrativa de cuotas y el despacho físico en estaciones o puntos remotos. Sin mecanismos de control, surgen discrepancias de saldo, demoras en autorización y riesgo de descontar dos veces una misma carga si la conexión se interrumpe y se reintenta el registro.
 
-## Funciones observadas en la fuente
+## Solución
 
-- Sesiones y alcance por rol y almacén resueltos por el servidor.
-- Solicitud, aprobación y despacho con bloqueo compartido y escrituras por lote.
-- Idempotencia por clave y contenido; reintentos exactos recuperan el resultado.
-- Cola local, borradores, evidencia y recuperación conservando pendientes.
-- Consultas paginadas y resúmenes reconstruibles sin sustituir el historial.
+Un sistema que organiza el flujo operativo en tres fases sincronizadas:
+1. **Solicitud:** registro de requerimiento con unidad receptora, volumen requerido y justificación operativa.
+2. **Aprobación:** validación administrativa en Google Apps Script / Google Sheets que bloquea temporalmente el registro con control de concurrencia y autoriza la cuota asignada.
+3. **Despacho:** captura en punto de carga mediante PWA móvil, guardando comprobantes y firmas, con verificación de idempotencia por clave de operación para evitar duplicaciones.
 
-## Tecnologías verificadas
+![Recorrido documental con datos ficticios: solicitud, aprobación y despacho](docs/images/recorrido-demo.png)
 
-Google Apps Script, Google Sheets, Google Drive, JavaScript, IndexedDB, PWA. Consulte la [arquitectura](docs/architecture.md) para su función.
+*Recorrido explicativo con datos sintéticos. Ilustración independiente; no ejecuta la aplicación operativa.*
 
-## Evidencia y resultados
+## Aportación personal
 
-El 5 de octubre de 2026 se ejecutaron nuevamente 65 pruebas locales simuladas: 65 correctas, cero fallos. Cubren autorización, saldos, fallos de almacenamiento, reintentos, consultas y conservación offline. La simulación no mide latencia de Google.
+<!-- APORTACION-PERSONAL: sustituir tras la confirmación agrupada de responsabilidades. -->
+Las responsabilidades personales específicas se detallarán tras la confirmación agrupada. Este repositorio documenta el caso, la arquitectura observada y las pruebas sintéticas sin atribuir autoría exclusiva de los sistemas operativos.
 
-No se publican métricas de ahorro, adopción o productividad. La [verificación](docs/verification.md) explica su alcance. La aportación personal detallada y la autoría integral del código operativo no están acreditadas públicamente; este caso presenta la revisión técnica y la documentación del proyecto asociado al portafolio.
+## Aportación de la automatización
 
-## Demostración y capturas
+| Etapa | Proceso manual previo | Aportación de la automatización |
+|---|---|---|
+| **1. Solicitud** | Vales en papel o mensajes sin folio único. | Registro estructurado con identificador único por unidad y conductor. |
+| **2. Aprobación** | Autorizaciones verbales sin control de saldo disponible. | Resolución de alcance por rol, validación de cuota y bloqueo concurrente en servidor. |
+| **3. Despacho** | Anotaciones sujetas a extravío o duplicación en campo. | Captura móvil con evidencias y clave de idempotencia que garantiza 0 L adicionales en reintentos exactos. |
+| **4. Contingencia** | Pérdida de información sin señal celular. | Cola local en IndexedDB que preserva borradores y pendientes hasta confirmar recepción. |
 
-Abra [demo/index.html](demo/index.html) localmente. El recorrido funciona sin servidor, instalación ni conexión a servicios. Su tabla representa [datos sintéticos](examples/scenario.json), no una captura de la aplicación original. El botón recorre textos ilustrativos; no ejecuta operaciones de negocio.
+## Probar el ejemplo
 
-![Recorrido documental con datos ficticios](docs/images/recorrido-demo.png)
+Requiere Python 3 y biblioteca estándar. Desde la raíz del repositorio:
 
-Puede verificar los datos usando Python 3: `python examples/verify.py`.
+```text
+python examples/verify.py
+```
 
-## Caso de estudio
+Comprueba el balance de cuota (aprobado − despachado = saldo) y la regla de reintento idempotente (0 litros adicionales descontados ante un reintento con la misma clave).
 
-Consulte [problema, decisiones y aprendizajes](docs/case-study.md).
+Para explorar el flujo paso a paso en el navegador, abra [demo/index.html](demo/index.html) de forma local (sin servidor ni credenciales).
 
-## Seguridad y limitaciones
+## Resultados comprobados
 
-Publicación independiente sin historial operativo. No incluye credenciales, identificadores de servicios, catálogos empresariales, datos personales, archivos de respaldo ni configuración productiva. Las pruebas de la fuente se ejecutaron con simulación o temporales aislados; el recorrido público es una explicación independiente.
+- **Control de solicitudes y cuotas:** 65 pruebas locales simuladas correctas (5 de octubre de 2026), cubriendo autorización, verificación de saldos, reintentos y consultas.
+- **Trazabilidad e idempotencia:** garantía de registro único por transacción; los reintentos exactos recuperan el resultado previo sin alterar el balance.
+- **Conservación de pendientes en campo:** almacenamiento local en IndexedDB para resguardar firmas y datos ante desconexión temporal.
 
-## Pendientes
+No se publican métricas de ahorro de combustible ni tiempos de respuesta operativos sin medición formal.
 
-- Integración en una copia de Sheets y una carpeta Drive de pruebas.
-- Comparación del código desplegado, permisos y activadores reales.
-- Pruebas de dispositivos, red interrumpida y actualización de una PWA instalada.
-- Aceptación humana de fotografías y firmas; decisiones de licencia.
+## Tecnologías
+
+| Alcance | Tecnologías |
+|---|---|
+| Observadas en la fuente | Google Apps Script, Google Sheets, Google Drive, JavaScript, IndexedDB, PWA |
+| Ejemplo público | Python 3 (biblioteca estándar), HTML/CSS estático autónomo |
+
+## Límites
+
+- Las 65 pruebas se ejecutaron en entorno simulado local, sin interactuar con los servicios reales de Google ni medir su latencia.
+- La integración en un entorno activo de Google Sheets / Drive y las pruebas en dispositivos físicos en campo permanecen pendientes de una fase técnica posterior.
+- El código fuente operativo es propiedad privada y no se distribuye en este repositorio.
+
+Detalle técnico y condiciones pendientes: [verificación y límites](docs/verification.md).
 
 ## Licencia
 
-Pendiente de decisión expresa. No se asigna una licencia de software ni se atribuyen derechos sobre el código operativo.
+Pendiente de decisión expresa. No se asigna licencia de software ni se transfieren derechos sobre el código privado.
