@@ -10,13 +10,13 @@ Las fuentes privadas se conservaron. Las ubicaciones y huellas revisadas se regi
 
 ## Material público reproducible
 
-`python examples/verify.py` verifica la identificación sintética y el resultado numérico del ejemplo. El recorrido HTML es autónomo, no solicita datos externos y permite avanzar por las etapas explicativas mediante teclado.
+`python examples/verify.py` comprueba la identificación sintética, el saldo aritmético y el valor esperado de descuento adicional (0 L adicionales) en un escenario sintético. Este script no ejecuta solicitudes repetidas ni valida el mecanismo operativo de idempotencia en red. El recorrido HTML es autónomo, no solicita datos externos y permite avanzar por las etapas explicativas mediante teclado.
 
 ## Condiciones no acreditadas
 
 - Integración en una copia de Sheets y una carpeta Drive de pruebas.
 - Comparación del código desplegado, permisos y activadores reales.
 - Pruebas de dispositivos, red interrumpida y actualización de una PWA instalada.
-- Aceptación humana de fotografías y firmas; decisiones de licencia.
+- Aceptación humana de fotografías y firmas; decisión de licencia en su fase técnica propia.
 
 Un repositorio publicado y un ejemplo correcto no certifican operación productiva ni aceptación de usuarios.

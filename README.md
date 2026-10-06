@@ -32,7 +32,7 @@ Diseñé e implementé la solución a partir del relevamiento directo de las con
 |---|---|---|
 | **1. Solicitud** | Vales en papel o mensajes sin folio único. | Registro estructurado con identificador único por unidad y conductor. |
 | **2. Aprobación** | Autorizaciones verbales sin control de saldo disponible. | Resolución de alcance por rol, validación de cuota y bloqueo concurrente en servidor. |
-| **3. Despacho** | Anotaciones sujetas a extravío o duplicación en campo. | Captura móvil con evidencias y clave de idempotencia que garantiza 0 L adicionales en reintentos exactos. |
+| **3. Despacho** | Anotaciones sujetas a extravío o duplicación en campo. | Captura móvil con evidencias y clave de idempotencia diseñada para registrar 0 L adicionales en reintentos exactos. |
 | **4. Contingencia** | Pérdida de información sin señal celular. | Cola local en IndexedDB que preserva borradores y pendientes hasta confirmar recepción. |
 
 ## Probar el ejemplo
@@ -43,15 +43,15 @@ Requiere Python 3 y biblioteca estándar. Desde la raíz del repositorio:
 python examples/verify.py
 ```
 
-Comprueba el balance de cuota (aprobado − despachado = saldo) y la regla de reintento idempotente (0 litros adicionales descontados ante un reintento con la misma clave).
+Comprueba la coherencia de un escenario sintético: el balance aritmético de cuota (aprobado − despachado = saldo) y el valor esperado de descuento adicional (0 L adicionales esperados ante un reintento con la misma clave). Este ejemplo público no ejecuta solicitudes repetidas ni valida el mecanismo operativo de idempotencia en red.
 
 Para explorar el flujo paso a paso en el navegador, abra [demo/index.html](demo/index.html) de forma local (sin servidor ni credenciales).
 
 ## Resultados comprobados
 
-- **Control de solicitudes y cuotas:** 65 pruebas locales simuladas correctas (5 de octubre de 2026), cubriendo autorización, verificación de saldos, reintentos y consultas.
-- **Trazabilidad e idempotencia:** garantía de registro único por transacción; los reintentos exactos recuperan el resultado previo sin alterar el balance.
-- **Conservación de pendientes en campo:** almacenamiento local en IndexedDB para resguardar firmas y datos ante desconexión temporal.
+- **Control de solicitudes y cuotas (evidencia histórica fechada):** 65 pruebas locales simuladas correctas (5 de octubre de 2026), cubriendo autorización, verificación de saldos, reintentos y consultas en entorno simulado. Esta evidencia histórica se distingue del ejemplo público reproducible.
+- **Trazabilidad y diseño de idempotencia:** el flujo operativo implementa clave de idempotencia para prevenir dobles cargos; el ejemplo público verifica el valor esperado sintético asociado.
+- **Conservación de pendientes en campo:** diseño de almacenamiento local en IndexedDB para resguardar firmas y datos ante desconexión temporal.
 
 No se publican métricas de ahorro de combustible ni tiempos de respuesta operativos sin medición formal.
 
@@ -64,8 +64,9 @@ No se publican métricas de ahorro de combustible ni tiempos de respuesta operat
 
 ## Límites
 
-- Las 65 pruebas se ejecutaron en entorno simulado local, sin interactuar con los servicios reales de Google ni medir su latencia.
-- La integración en un entorno activo de Google Sheets / Drive y las pruebas en dispositivos físicos en campo permanecen pendientes de una fase técnica posterior.
+- Las 65 pruebas se ejecutaron en entorno simulado local fechado (5 de octubre de 2026), sin interactuar con los servicios reales de Google ni medir su latencia.
+- El ejemplo público en Python comprueba la coherencia aritmética de un escenario sintético; no ejecuta solicitudes repetidas ni valida el mecanismo operativo de idempotencia en red.
+- La integración en un entorno activo de Google Sheets / Drive y las pruebas en dispositivos físicos en campo permanecen como validación operativa pendiente.
 - El código fuente operativo es propiedad privada y no se distribuye en este repositorio.
 
 Detalle técnico y condiciones pendientes: [verificación y límites](docs/verification.md).

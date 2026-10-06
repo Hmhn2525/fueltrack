@@ -7,6 +7,7 @@ assert data['synthetic'] is True
 assert Decimal(str(data['approved_liters'])) - Decimal(str(data['dispatch_liters'])) == Decimal(str(data['remaining_liters']))
 assert data['exact_retry_additional_liters'] == 0
 assert data['unit'].startswith('DEMO-')
-print('Ejemplo sintético coherente; no ejecuta ni valida el sistema operativo.')
+print('Comprobación de coherencia de escenario sintético: saldo aritmético y valor esperado de descuento adicional.')
+print('Este ejemplo no ejecuta solicitudes repetidas ni valida el mecanismo operativo de idempotencia.')
 print(f"Unidad: {data['unit']} | Cuota aprobada: {data['approved_liters']} L | Despachado: {data['dispatch_liters']} L | Saldo: {data['remaining_liters']} L")
-print(f"Reintento con misma clave: +{data['exact_retry_additional_liters']} L (idempotencia garantizada)")
+print(f"Reintento con misma clave: +{data['exact_retry_additional_liters']} L adicionales esperados (coherencia de escenario sintético)")

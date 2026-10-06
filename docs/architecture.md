@@ -29,4 +29,4 @@ Este repositorio contiene Markdown, un JSON sintético, un verificador Python de
 - Integración en una copia de Sheets y una carpeta Drive de pruebas.
 - Comparación del código desplegado, permisos y activadores reales.
 - Pruebas de dispositivos, red interrumpida y actualización de una PWA instalada.
-- Aceptación humana de fotografías y firmas; decisiones de licencia.
+- Aceptación humana de fotografías y firmas; decisión de licencia en su fase técnica propia.
