@@ -8,9 +8,15 @@ El 5 de octubre de 2026 se ejecutaron nuevamente 65 pruebas locales simuladas: 6
 
 Las fuentes privadas se conservaron. Las ubicaciones y huellas revisadas se registran en la ficha de gestión local; no se copian documentos internos ni rutas operativas al repositorio público. Las pruebas originales no se distribuyen, por lo que este repositorio no permite reproducir su suite.
 
-## Material público reproducible
+## Material público reproducible · actualizado 2026-10-09
 
-`python examples/verify.py` comprueba la identificación sintética, el saldo aritmético y el valor esperado de descuento adicional (0 L adicionales) en un escenario sintético. Este script no ejecuta solicitudes repetidas ni valida el mecanismo operativo de idempotencia en red. El recorrido HTML es autónomo, no solicita datos externos y permite avanzar por las etapas explicativas mediante teclado.
+`python examples/verify.py` procesa dos intentos sintéticos con la misma clave y el mismo importe. El primero registra 20 L; el segundo reutiliza el recibo y no vuelve a descontar. El resultado del modelo es una operación única, 20 L debitados y 80 L de saldo.
+
+La simulación corre solo en memoria. No invoca GAS, Sheets, Drive ni red; por eso no prueba la idempotencia desplegada, persistencia, concurrencia ni recuperación ante desconexiones. El recorrido HTML es autónomo, no solicita datos externos y permite avanzar por las etapas explicativas mediante teclado.
+
+## Captura de interfaz pendiente
+
+No se añadió una captura nueva del flujo operativo porque no se pudo abrir la interfaz original en el navegador de revisión. El SVG images/mockup-synthetic.svg es un mockup vectorial generado desde el fixture, no una captura de la UI original.
 
 ## Condiciones no acreditadas
 

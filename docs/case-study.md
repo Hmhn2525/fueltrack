@@ -16,7 +16,9 @@ Conservar GAS y Sheets permite estudiar mejoras dentro de la arquitectura existe
 
 Evidencia histórica fechada (5 de octubre de 2026): se ejecutaron nuevamente 65 pruebas locales simuladas: 65 correctas, cero fallos. Cubren autorización, saldos, fallos de almacenamiento, reintentos, consultas y conservación offline. La simulación no mide latencia de Google y se diferencia de la comprobación del ejemplo público sintético.
 
-El [recorrido ilustrativo](../demo/index.html) usa datos inventados y no demuestra ejecución de la aplicación original. La imagen conserva esa identificación explícita.
+El ejemplo reproducible ejecuta dos intentos con la misma clave y comprueba un solo descuento de 20 L y un saldo de 80 L en memoria. El [recorrido ilustrativo](../demo/index.html) usa datos inventados y no demuestra ejecución de la aplicación original. La imagen conserva esa identificación explícita.
+
+Este resultado acredita únicamente el modelo didáctico del repositorio. No ejecuta GAS/Sheets ni acredita comportamiento operativo.
 
 ## Aprendizajes
 
